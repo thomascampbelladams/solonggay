@@ -18,6 +18,10 @@
     display: none;
 }
 
+body {
+    margin: 0;
+}
+
 .loading-indicator, .play-button {
     position: relative;
     top: 50%;

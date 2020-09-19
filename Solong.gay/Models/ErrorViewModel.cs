@@ -1,5 +1,3 @@
-using System;
-
 namespace Solong.gay.Models
 {
     public class ErrorViewModel
