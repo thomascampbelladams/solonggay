@@ -1,0 +1,82 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	ViewData["Title"] = "So long gay bowser";
+}
+
+<style>
+	.content {
+		background-image: url('assets/bowser-spinning.gif');
+		background-repeat: repeat;
+		height: 100vh;
+	}
+</style>
+
+<div class="loading">
+	<span class="play-button hidden">▶</span>
+	<span class="loading-indicator"></span>
+</div>
+
+<div class="content hidden">
+	<div class="wavetext">
+		<span>SO LONG GAY BOWSER</span>
+	</div>
+</div>
+
+@section Scripts {
+	<script src="~/js/midi.js"></script>
+	<script src="~/js/loadingIndicator.js"></script>
+	<script src="~/js/preloader.js"></script>
+	<script src="~/js/preload.js"></script>
+	<script>
+		var midiUrl = "assets/overworld.mid";
+		var filesToLoad = [
+			"assets/overworld.mid",
+			"assets/sm64_mario_so_long_bowser_LjCg641.mp3",
+			"js/pat/arachno-120.pat",
+			"js/pat/arachno-127.pat",
+			"js/pat/arachno-95.pat",
+			"js/pat/MT32Drums/mt32drum-1.pat",
+			"js/pat/MT32Drums/mt32drum-11.pat",
+			"js/pat/MT32Drums/mt32drum-16.pat",
+			"js/pat/MT32Drums/mt32drum-19.pat",
+			"js/pat/MT32Drums/mt32drum-2.pat",
+			"js/pat/MT32Drums/mt32drum-22.pat",
+			"js/pat/MT32Drums/mt32drum-3.pat",
+			"js/pat/MT32Drums/mt32drum-41.pat",
+			"js/pat/MT32Drums/mt32drum-7.pat"
+		];
+
+		function playMusicLoop(midiLength) {
+			var sound = new Audio();
+
+			sound.src = "assets/sm64_mario_so_long_bowser_LjCg641.mp3";
+			sound.play();
+			sound.onended = function () {
+				setTimeout(playMusicLoop, midiLength);
+				MIDIjs.play(midiUrl);
+			};
+		}
+
+		var queue = new createjs.LoadQueue(false);
+		queue.on("complete", function () {
+			var playButton = document.querySelector(".play-button");
+
+			loadingIndicator.stop();
+
+			document.querySelector(".loading-indicator").classList.add("hidden");
+			playButton.classList.remove("hidden");
+			playButton.addEventListener("click", function () {
+				document.querySelector(".loading").classList.add("hidden");
+				document.querySelector(".content").classList.remove("hidden");
+
+				MIDIjs.get_duration(midiUrl, function (seconds) {
+					midiPlayLength = seconds * 1000;
+					playMusicLoop(midiPlayLength);
+				});
+			});
+		});
+		queue.loadManifest(filesToLoad);
+	</script>
+}
