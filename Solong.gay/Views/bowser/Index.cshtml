@@ -14,7 +14,7 @@
 </style>
 
 <div class="loading">
-	<span class="play-button hidden">▶</span>
+	<span class="play-button hidden" onclick="start()">▶</span>
 	<span class="loading-indicator"></span>
 </div>
 
@@ -29,6 +29,7 @@
 	<script src="~/js/loadingIndicator.js"></script>
 	<script src="~/js/preloader.js"></script>
 	<script src="~/js/preload.js"></script>
+	<script src="~/js/touchscreenDetector.js"></script>
 	<script>
 		var midiUrl = "assets/overworld.mid";
 		var filesToLoad = [
@@ -59,24 +60,29 @@
 			};
 		}
 
-		var queue = new createjs.LoadQueue(false);
-		queue.on("complete", function () {
-			var playButton = document.querySelector(".play-button");
+		function start() {
+			document.querySelector(".loading").classList.add("hidden");
+			document.querySelector(".content").classList.remove("hidden");
 
+			playMusicLoop(midiPlayLength);
+		}
+
+		var queue = new createjs.LoadQueue(false);
+		var playButton = document.querySelector(".play-button");
+		var userEvent = (TouchScreenDetect.Detect()) ? "touchstart" : "click";
+		var midiPlayLength = 0;
+
+		queue.on("complete", function () {
 			loadingIndicator.stop();
 
 			document.querySelector(".loading-indicator").classList.add("hidden");
 			playButton.classList.remove("hidden");
-			playButton.addEventListener("click", function () {
-				document.querySelector(".loading").classList.add("hidden");
-				document.querySelector(".content").classList.remove("hidden");
-
-				MIDIjs.get_duration(midiUrl, function (seconds) {
-					midiPlayLength = seconds * 1000;
-					playMusicLoop(midiPlayLength);
-				});
-			});
 		});
-		queue.loadManifest(filesToLoad);
+
+		MIDIjs.get_duration(midiUrl, function (seconds) {
+			midiPlayLength = seconds * 1000;
+
+			queue.loadManifest(filesToLoad);
+		});
 	</script>
 }

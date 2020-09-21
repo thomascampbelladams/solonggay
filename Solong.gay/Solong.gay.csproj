@@ -5,7 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\.well-known\pki-validation\D42AC58A6932C40AB0E9269EC64A85A2.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Home\" />
     <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
   </ItemGroup>
 
 </Project>
