@@ -20,6 +20,11 @@ namespace Solong.gay.Controllers
         }
 
 
+        public IActionResult Paul()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

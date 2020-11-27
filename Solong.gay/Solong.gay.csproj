@@ -5,12 +5,43 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="package.json" />
+    <Content Remove="wwwroot\js\bundle.js" />
+    <Content Remove="wwwroot\js\libtimidity.min.js" />
+    <Content Remove="wwwroot\js\loadingIndicator.min.js" />
+    <Content Remove="wwwroot\js\midi.min.js" />
+    <Content Remove="wwwroot\js\preload.min.js" />
+    <Content Remove="wwwroot\js\touchscreenDetector.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\bundle.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\libtimidity.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\loadingIndicator.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\midi.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\preload.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\touchscreenDetector.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\.well-known\pki-validation\D42AC58A6932C40AB0E9269EC64A85A2.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Views\Home\" />
     <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="package.json" />
+    <None Include="wwwroot\js\bundle.js" />
+    <None Include="wwwroot\js\libtimidity.min.js" />
+    <None Include="wwwroot\js\loadingIndicator.min.js" />
+    <None Include="wwwroot\js\midi.min.js" />
+    <None Include="wwwroot\js\preload.min.js" />
+    <None Include="wwwroot\js\touchscreenDetector.min.js" />
   </ItemGroup>
 
   <ItemGroup>

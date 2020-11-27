@@ -1,0 +1,60 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/js/libtimidity.min.js",
+    "inputFiles": [
+      "wwwroot/js/libtimidity.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/loadingIndicator.min.js",
+    "inputFiles": [
+      "wwwroot/js/loadingIndicator.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/midi.min.js",
+    "inputFiles": [
+      "wwwroot/js/midi.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/preload.min.js",
+    "inputFiles": [
+      "wwwroot/js/preload.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/preloader.min.js",
+    "inputFiles": [
+      "wwwroot/js/preloader.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/js/site.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/solonggaybowser.min.js",
+    "inputFiles": [
+      "wwwroot/js/solonggaybowser.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/touchscreenDetector.min.js",
+    "inputFiles": [
+      "wwwroot/js/touchscreenDetector.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/bundle.js",
+    "inputFiles": [
+      "wwwroot/js/loadingIndicator.min.js",
+      "wwwroot/js/preloader.js",
+      "wwwroot/js/site.min.js",
+      "wwwroot/js/solonggaybowser.min.js",
+      "wwwroot/js/touchscreenDetector.min.js"
+    ]
+  }
+]

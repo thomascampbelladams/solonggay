@@ -24,6 +24,7 @@ namespace Solong.gay
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddResponseCompression();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,13 +59,17 @@ namespace Solong.gay
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseResponseCompression();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}");
+
+                endpoints.MapControllerRoute(
+                    name: "paul",
+                    pattern: "{controller=Home}/{action=Paul}");
             });
         }
     }
