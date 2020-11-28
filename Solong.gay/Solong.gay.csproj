@@ -13,6 +13,7 @@
     <Content Remove="wwwroot\js\midi.min.js" />
     <Content Remove="wwwroot\js\preload.min.js" />
     <Content Remove="wwwroot\js\touchscreenDetector.min.js" />
+    <Content Remove="wwwroot\js\RgbScreenForm.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,7 @@
   <ItemGroup>
     <Folder Include="Views\Home\" />
     <Folder Include="wwwroot\lib\" />
+    <Folder Include="wwwroot\js\rgb-models\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,10 +44,19 @@
     <None Include="wwwroot\js\midi.min.js" />
     <None Include="wwwroot\js\preload.min.js" />
     <None Include="wwwroot\js\touchscreenDetector.min.js" />
+    <None Include="wwwroot\js\rgb-models\SceneList.ts" />
+    <None Include="wwwroot\js\rgb-models\Scene.ts" />
+    <None Include="wwwroot\js\rgb-models\AnimationScene.ts" />
+    <None Include="wwwroot\js\rgb-models\MarqueeScene.ts" />
+    <None Include="wwwroot\js\rgb-models\TextScene.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.1.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
