@@ -48,13 +48,25 @@
     ]
   },
   {
+    "outputFileName": "wwwroot/js/rgbBundle.js",
+    "inputFiles": [
+      "js/rgb-models/Scene.js",
+      "js/rgb-models/AnimationScene.js",
+      "js/rgb-models/RainbowTransitionScene.js",
+      "js/rgb-models/TextScene.js",
+      "js/rgb-models/MarqueeScene.js",
+      "js/rgb-models/SceneList.js",
+      "js/rgb-models/RgbScreenForm.js"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/js/bundle.js",
     "inputFiles": [
-      "wwwroot/js/loadingIndicator.min.js",
-      "wwwroot/js/preloader.js",
-      "wwwroot/js/site.min.js",
-      "wwwroot/js/solonggaybowser.min.js",
-      "wwwroot/js/touchscreenDetector.min.js"
+      "js/loadingIndicator.min.js",
+      "js/preloader.js",
+      "js/site.min.js",
+      "js/solonggaybowser.min.js",
+      "js/touchscreenDetector.min.js"
     ]
   }
 ]

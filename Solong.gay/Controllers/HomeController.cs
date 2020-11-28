@@ -19,10 +19,14 @@ namespace Solong.gay.Controllers
             return Redirect("/bowser");
         }
 
-
         public IActionResult Paul()
         {
             return View();
+        }
+
+        public IActionResult RGBScreen()
+        {
+            return View("RgbScreen");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

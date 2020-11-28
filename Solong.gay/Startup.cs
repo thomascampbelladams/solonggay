@@ -70,6 +70,10 @@ namespace Solong.gay
                 endpoints.MapControllerRoute(
                     name: "paul",
                     pattern: "{controller=Home}/{action=Paul}");
+
+                endpoints.MapControllerRoute(
+                    name: "rgb",
+                    pattern: "{controller=Home}/{action=RgbScreen}");
             });
         }
     }
