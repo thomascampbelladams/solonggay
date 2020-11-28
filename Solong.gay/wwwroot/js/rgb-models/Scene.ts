@@ -1,6 +1,6 @@
 ﻿class Scene {
     public Type: string;
-    private TypeField: HTMLElement;
+    private TypeField: HTMLSelectElement;
     private TypeLabel: HTMLElement;
     private Types = [
         "none",
@@ -34,7 +34,7 @@
         switch (sceneName) {
             case "horizontal marquee":
             case "vertical marquee":
-                break;
+                return new MarqueeScene(this.screen);
 
             case "animation":
                 return new AnimationScene(this.screen);
@@ -43,7 +43,7 @@
                 break;
 
             case "text":
-                break;
+                return new TextScene(this.screen);
         }
     }
 

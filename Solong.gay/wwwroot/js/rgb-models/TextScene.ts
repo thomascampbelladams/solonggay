@@ -1,14 +1,19 @@
 ﻿class TextScene extends Scene {
     public Content: string;
-    private ContentInput: HTMLElement;
+    private ContentInput: HTMLInputElement;
+    private ContentLabel: HTMLElement;
     public Color: number;
-    private ColorInput: HTMLElement;
+    private ColorInput: HTMLInputElement;
+    private ColorLabel: HTMLElement;
     public Font: string;
-    private FontDropDown: HTMLElement;
+    private FontDropDown: HTMLSelectElement;
+    private FontLabel: HTMLElement;
     public CenteredVertically: boolean;
-    private CenteredVerticallyCheckbox: HTMLElement;
+    private CenteredVerticallyCheckbox: HTMLInputElement;
+    private CenteredVerticallyLabel: HTMLElement;
     public CenteredHorizontally: boolean;
-    private CenteredHorizontallyCheckbox: HTMLElement;
+    private CenteredHorizontallyCheckbox: HTMLInputElement;
+    private CenteredHorizontallyLabel: HTMLElement;
     private availableFonts = [
         "10x20",
         "4x6",
@@ -58,35 +63,42 @@
     ];
 
     constructor(screen: HTMLElement) {
+        super("", screen);
+
         this.ContentInput = document.createElement("input");
         this.ContentInput.setAttribute("type", "text");
         this.ContentInput.addEventListener("change", (e) => {
             this.Content = this.ContentInput.value;
         });
+        this.ContentLabel = document.createElement("<label>Content</label>");
 
         this.ColorInput = document.createElement("input");
         this.ColorInput.setAttribute("type", "color");
         this.ColorInput.addEventListener("change", (e) => {
-            this.Color = this.ColorInput.value;
+            this.Color = parseInt(this.ColorInput.value);
         });
+        this.ColorLabel = document.createElement("<label>Color of text</label>");
 
         this.FontDropDown = document.createElement("select");
         this.CreateFontDropDown(this.FontDropDown);
         this.FontDropDown.addEventListener("change", (e) => {
             this.Font = this.FontDropDown.value;
         });
+        this.FontLabel = document.createElement("<label>Font</label>");
 
         this.CenteredVerticallyCheckbox = document.createElement("input");
         this.CenteredVerticallyCheckbox.setAttribute("type", "checkbox");
         this.CenteredVerticallyCheckbox.addEventListener("change", (e) => {
-            this.CenteredVertically = this.CenteredVerticallyCheckbox.isChecked;
+            this.CenteredVertically = this.CenteredVerticallyCheckbox.checked;
         });
+        this.CenteredVerticallyLabel = document.createElement("Centered Vertically?");
 
         this.CenteredHorizontallyCheckbox = document.createElement("input");
         this.CenteredHorizontallyCheckbox.setAttribute("type", "checkbox");
         this.CenteredHorizontallyCheckbox.addEventListener("change", (e) => {
-            this.CenteredHorizontally = this.CenteredHorizontallyCheckbox.isChecked;
+            this.CenteredHorizontally = this.CenteredHorizontallyCheckbox.checked;
         });
+        this.CenteredHorizontallyLabel = document.createElement("Centered Horizontally?");
     }
 
     public CreateFontDropDown(dropdown: HTMLElement) {
@@ -101,10 +113,15 @@
     public Render(screen: HTMLElement) {
         super.Render(screen);
 
+        screen.appendChild(this.ContentLabel);
         screen.appendChild(this.ContentInput);
+        screen.appendChild(this.ColorLabel);
         screen.appendChild(this.ColorInput);
+        screen.appendChild(this.FontLabel);
         screen.appendChild(this.FontDropDown);
+        screen.appendChild(this.CenteredHorizontallyLabel);
         screen.appendChild(this.CenteredHorizontallyCheckbox);
+        screen.appendChild(this.CenteredVerticallyLabel);
         screen.appendChild(this.CenteredVerticallyCheckbox);
     }
 

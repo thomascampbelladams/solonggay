@@ -1,33 +1,57 @@
-﻿import Scene from "./Scene";
-
-class SceneList {
+﻿class SceneList {
     public Scenes: Scene[];
     public TimesToRepeat: number;
     private TheScreen: HTMLElement;
+    private i: number = 0;
 
-    constructor(jsonStr: string, screen: ScreenHelper) {
-        let jsonObj: any = JSON.parse(jsonStr);
-        let i: number = 0;
+    constructor(jsonStr: string, screen: HTMLElement) {
         this.TheScreen = screen;
-
-        this.TimesToRepeat = jsonObj["TimesToRepeat"];
+        this.TimesToRepeat = 1;
         this.Scenes = [];
 
-        jsonObj["Scenes"].forEach(obj => {
-            this.Scenes[i] = this.TheScreen.TranslateScene(obj);
+        /*if (jsonStr) {
+            let jsonObj: any = JSON.parse(jsonStr);
 
-            i++;
-        });
+            jsonObj["Scenes"].forEach(obj => {
+                this.Scenes[this.i] = this.TheScreen.TranslateScene(obj);
+
+                this.i++;
+            });
+        }*/
+    }
+
+    public AddScene(sceneToAdd: Scene) {
+        this.Scenes[this.i] = sceneToAdd;
+        this.RenderScene(sceneToAdd);
+
+        this.i++;
     }
 
     /**
      * Render
      */
-    public async Render() {
+    public Render() {
         for (let index = 0; index < this.Scenes.length; index++) {
             const scene = this.Scenes[index];
 
-            await scene.Render(this.TheScreen);
+            this.RenderScene(scene);
         }
+    }
+
+    private RenderScene(scene: Scene) {
+        scene.Render(this.TheScreen);
+    }
+
+    public ToJson() {
+        var jsonObjs: any[] = [];
+
+        for (let i = 0, len = this.Scenes.length; i < len; i++) {
+            jsonObjs[i] = this.Scenes[i].ToJson();
+        }
+
+        return {
+            "Scenes": jsonObjs,
+            "TimeToRepeat": this.TimesToRepeat
+        };
     }
 }
