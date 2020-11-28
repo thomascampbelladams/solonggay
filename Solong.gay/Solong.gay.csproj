@@ -49,6 +49,7 @@
     <None Include="wwwroot\js\rgb-models\AnimationScene.ts" />
     <None Include="wwwroot\js\rgb-models\MarqueeScene.ts" />
     <None Include="wwwroot\js\rgb-models\TextScene.ts" />
+    <None Include="wwwroot\js\rgb-models\RainbowTransitionScene.ts" />
   </ItemGroup>
 
   <ItemGroup>
