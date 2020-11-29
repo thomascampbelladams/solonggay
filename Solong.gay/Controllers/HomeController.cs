@@ -29,6 +29,8 @@ namespace Solong.gay.Controllers
         {
 #if DEBUG
             ViewBag.IsDebug = true;
+#else
+            ViewBag.IsDebug = false;
 #endif
             return View("RgbScreen");
         }

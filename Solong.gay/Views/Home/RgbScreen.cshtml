@@ -5,19 +5,12 @@
 }
 <link href="~/css/rgbscreen.css" rel="stylesheet" />
 @section Scripts {
-    @if (ViewBag.IsDebug)
-    {
-        <script src="~/js/rgb-helpers/ElementHelper.js"></script>
-        <script src="~/js/rgb-models/Scene.js"></script>
-        <script src="~/js/rgb-models/TextScene.js"></script>
-        <script src="~/js/rgb-models/MarqueeScene.js"></script>
-        <script src="~/js/rgb-models/AnimationScene.js"></script>
-        <script src="~/js/rgb-models/RainbowTransitionScene.js"></script>
-        <script src="~/js/rgb-models/SceneList.js"></script>
-        <script src="~/js/RgbScreenForm.js"></script>
-    }
-    else
-    {
-        <script src="~/js/RgbBundle.min.js" asp-append-version="true"></script>
-    }
+    <script src="~/js/rgb-helpers/ElementHelper.js"></script>
+    <script src="~/js/rgb-models/Scene.js"></script>
+    <script src="~/js/rgb-models/TextScene.js"></script>
+    <script src="~/js/rgb-models/MarqueeScene.js"></script>
+    <script src="~/js/rgb-models/AnimationScene.js"></script>
+    <script src="~/js/rgb-models/RainbowTransitionScene.js"></script>
+    <script src="~/js/rgb-models/SceneList.js"></script>
+    <script src="~/js/RgbScreenForm.js"></script>
 }
