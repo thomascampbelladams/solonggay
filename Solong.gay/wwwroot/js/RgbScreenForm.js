@@ -18,7 +18,7 @@ var RgbScreenForm = /** @class */ (function () {
     }
     return RgbScreenForm;
 }());
-var screenElem = document.createElement("<div id='the-screen'></div>");
+var screenElem = document.createElement("div");
+screenElem.setAttribute('id', "the-screen");
 document.body.appendChild(screenElem);
-var theForm = new RgbScreenForm(screenElem);
-//# sourceMappingURL=RgbScreenForm.js.map
+new RgbScreenForm(screenElem);

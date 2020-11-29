@@ -1,54 +1,48 @@
 ﻿class RainbowTransitionScene extends AnimationScene {
     public BlockHeight: number;
-    private BlockHeightRangeElement: HTMLInputElement;
-    private BlockHeightLabel: HTMLElement;
-    private BlockHeightMax: number = 10;
-    private BlockHeightMin: number = 1;
+    private BlockHeightRangeElement: HTMLElement;
+    private BlockHeightLabel: HTMLLabelElement;
+    private BlockHeightMax = 10;
+    private BlockHeightMin = 1;
     public BlockWidth: number;
-    private BlockWidthRangeElement: HTMLInputElement;
-    private BlockWidthLabel: HTMLElement;
-    private BlockWidthMax: number = 10;
-    private BlockWidthMin: number = 1;
+    private BlockWidthRangeElement: HTMLElement;
+    private BlockWidthLabel: HTMLLabelElement;
+    private BlockWidthMax = 10;
+    private BlockWidthMin = 1;
 
 
     constructor(screen: HTMLElement) {
         super(screen);
 
-        this.BlockHeightRangeElement = document.createElement("input");
-        this.BlockHeightRangeElement.setAttribute("type", "range");
-        this.BlockHeightRangeElement.setAttribute("min", `${this.BlockHeightMin}`);
-        this.BlockHeightRangeElement.setAttribute("max", `${this.BlockHeightMax}`);
-        this.BlockHeightRangeElement.addEventListener("change", (e) => {
-            this.BlockHeight = parseInt(this.BlockHeightRangeElement.value);
-        });
-        this.BlockHeightLabel = document.createElement("<label>Color block height (in pixels)</label>");
+        this.Type = "rainbow transition";
 
-        this.BlockWidthRangeElement = document.createElement("input");
-        this.BlockWidthRangeElement.setAttribute("type", "range");
-        this.BlockWidthRangeElement.setAttribute("min", `${this.BlockWidthMin}`);
-        this.BlockWidthRangeElement.setAttribute("max", `${this.BlockWidthMax}`);
-        this.BlockWidthRangeElement.addEventListener("change", (e) => {
-            this.BlockWidth = parseInt(this.BlockWidthRangeElement.value);
+        this.BlockHeightRangeElement = ElementHelper.CreateRangeElement(this.BlockHeightMin, this.BlockHeightMax, (e) => {
+            this.BlockHeight = parseInt(this.BlockHeightRangeElement.querySelector('input').value);
         });
-        this.BlockWidthLabel = document.createElement("<label>Color block width (in pixels)</label>");
+        this.BlockHeightLabel = ElementHelper.CreateLabel("Color block height (in pixels)");
+
+        this.BlockWidthRangeElement = ElementHelper.CreateRangeElement(this.BlockWidthMin, this.BlockWidthMax, (e) => {
+            this.BlockWidth = parseInt(this.BlockWidthRangeElement.querySelector('input').value);
+        });
+        this.BlockWidthLabel = ElementHelper.CreateLabel("Color block width (in pixels)");
     }
 
     /**
      * Render
      */
-    public Render(screen: HTMLElement) {
-        super.Render(screen);
+    public Render() {
+        super.Render();
 
-        screen.appendChild(this.BlockHeightLabel);
-        screen.appendChild(this.BlockHeightRangeElement);
-        screen.appendChild(this.BlockWidthLabel);
-        screen.appendChild(this.BlockWidthRangeElement);
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.BlockHeightLabel, this.BlockHeightRangeElement));
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.BlockWidthLabel, this.BlockWidthRangeElement));
     }
 
     public ToJson() {
-        let ret: any = super.ToJson();
+        const ret = super.ToJson();
 
-        ret["BlockHeight"] = this.BlockHeight;
-        ret["BlockWidth"] = this.BlockWidth;
+        ret["BlockHeight"] = this.BlockHeightRangeElement.querySelector('input').value;
+        ret["BlockWidth"] = this.BlockWidthRangeElement.querySelector('input').value;
+
+        return ret;
     }
 }

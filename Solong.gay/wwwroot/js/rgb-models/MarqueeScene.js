@@ -13,32 +13,28 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var MarqueeScene = /** @class */ (function (_super) {
     __extends(MarqueeScene, _super);
-    function MarqueeScene(screen) {
+    function MarqueeScene(screen, isHorizontal) {
         var _this = _super.call(this, screen) || this;
         _this.MaxDelay = 100;
         _this.MinDelay = 0;
-        _this.AnimationDelayRangeElement = document.createElement("input");
-        _this.AnimationDelayRangeElement.setAttribute("type", "range");
-        _this.AnimationDelayRangeElement.setAttribute("min", "" + _this.MinDelay);
-        _this.AnimationDelayRangeElement.setAttribute("max", "" + _this.MaxDelay);
-        _this.AnimationDelayRangeElement.addEventListener("change", function (e) {
-            _this.AnimationDelay = parseInt(_this.AnimationDelayRangeElement.value);
+        _this.Type = (isHorizontal) ? "horizontal marquee" : "vertical marquee";
+        _this.AnimationDelayRangeElement = ElementHelper.CreateRangeElement(_this.MinDelay, _this.MaxDelay, function (e) {
+            _this.AnimationDelay = parseInt(_this.AnimationDelayRangeElement.querySelector('input').value);
         });
-        _this.AnimationDelayLabel = document.createElement("<label>Animation Delay</label>");
+        _this.AnimationDelayLabel = ElementHelper.CreateLabel("Animation Delay");
         return _this;
     }
     /**
      * async Render
      */
-    MarqueeScene.prototype.Render = function (screen) {
-        _super.prototype.Render.call(this, screen);
-        screen.appendChild(this.AnimationDelayLabel);
-        screen.appendChild(this.AnimationDelayRangeElement);
+    MarqueeScene.prototype.Render = function () {
+        _super.prototype.Render.call(this);
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.AnimationDelayLabel, this.AnimationDelayRangeElement));
     };
     MarqueeScene.prototype.ToJson = function () {
         var ret = _super.prototype.ToJson.call(this);
-        ret["AnimationDelay"] = this.AnimationDelay;
+        ret["AnimationDelay"] = parseInt(this.AnimationDelayRangeElement.querySelector('input').value);
+        return ret;
     };
     return MarqueeScene;
 }(TextScene));
-//# sourceMappingURL=MarqueeScene.js.map

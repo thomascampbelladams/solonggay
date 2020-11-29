@@ -38,7 +38,6 @@
   <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="package.json" />
-    <None Include="wwwroot\js\bundle.js" />
     <None Include="wwwroot\js\libtimidity.min.js" />
     <None Include="wwwroot\js\loadingIndicator.min.js" />
     <None Include="wwwroot\js\midi.min.js" />

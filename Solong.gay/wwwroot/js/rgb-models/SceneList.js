@@ -4,20 +4,21 @@ var SceneList = /** @class */ (function () {
         this.TheScreen = screen;
         this.TimesToRepeat = 1;
         this.Scenes = [];
-        /*if (jsonStr) {
-            let jsonObj: any = JSON.parse(jsonStr);
-
-            jsonObj["Scenes"].forEach(obj => {
-                this.Scenes[this.i] = this.TheScreen.TranslateScene(obj);
-
-                this.i++;
-            });
-        }*/
     }
     SceneList.prototype.AddScene = function (sceneToAdd) {
         this.Scenes[this.i] = sceneToAdd;
+        sceneToAdd.IndexValue = this.i;
         this.RenderScene(sceneToAdd);
+        sceneToAdd.BindToOnDropDownChange(this.OnSceneChange.bind(this));
         this.i++;
+    };
+    SceneList.prototype.OnSceneChange = function (scene) {
+        var newScene = ElementHelper.CreateNewScene(scene.Type, this.TheScreen);
+        this.Scenes[scene.IndexValue] = newScene;
+        newScene.IndexValue = scene.IndexValue;
+        newScene.BindToOnDropDownChange(this.OnSceneChange.bind(this));
+        scene.Dispose();
+        newScene.Render();
     };
     /**
      * Render
@@ -29,7 +30,7 @@ var SceneList = /** @class */ (function () {
         }
     };
     SceneList.prototype.RenderScene = function (scene) {
-        scene.Render(this.TheScreen);
+        scene.Render();
     };
     SceneList.prototype.ToJson = function () {
         var jsonObjs = [];
@@ -43,4 +44,3 @@ var SceneList = /** @class */ (function () {
     };
     return SceneList;
 }());
-//# sourceMappingURL=SceneList.js.map

@@ -1,72 +1,31 @@
-﻿[
+[
   {
-    "outputFileName": "wwwroot/js/libtimidity.min.js",
+    "outputFileName": "wwwroot/js/bundle.js",
     "inputFiles": [
-      "wwwroot/js/libtimidity.js"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/loadingIndicator.min.js",
-    "inputFiles": [
-      "wwwroot/js/loadingIndicator.js"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/midi.min.js",
-    "inputFiles": [
-      "wwwroot/js/midi.js"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/preload.min.js",
-    "inputFiles": [
-      "wwwroot/js/preload.js"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/preloader.min.js",
-    "inputFiles": [
-      "wwwroot/js/preloader.js"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/site.min.js",
-    "inputFiles": [
-      "wwwroot/js/site.js"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/solonggaybowser.min.js",
-    "inputFiles": [
+      "wwwroot/js/site.js",
+      "wwwroot/js/loadingIndicator.js",
+      "wwwroot/js/preloader.js",
+      "wwwroot/js/preload.js",
+      "wwwroot/js/touchscreenDetector.js",
       "wwwroot/js/solonggaybowser.js"
     ]
   },
   {
-    "outputFileName": "wwwroot/js/touchscreenDetector.min.js",
+    "outputFileName": "wwwroot/js/RgbBundle.js",
     "inputFiles": [
-      "wwwroot/js/touchscreenDetector.js"
+      "wwwroot/js/rgb-models/AnimationScene.js",
+      "wwwroot/js/rgb-models/MarqueeScene.js",
+      "wwwroot/js/rgb-models/RainbowTransitionScene.js",
+      "wwwroot/js/rgb-models/Scene.js",
+      "wwwroot/js/rgb-models/SceneList.js",
+      "wwwroot/js/rgb-models/TextScene.js",
+      "wwwroot/js/RgbScreenForm.js"
     ]
   },
   {
-    "outputFileName": "wwwroot/js/rgbBundle.js",
+    "outputFileName": "wwwroot/css/site.min.css",
     "inputFiles": [
-      "js/rgb-models/Scene.js",
-      "js/rgb-models/AnimationScene.js",
-      "js/rgb-models/RainbowTransitionScene.js",
-      "js/rgb-models/TextScene.js",
-      "js/rgb-models/MarqueeScene.js",
-      "js/rgb-models/SceneList.js",
-      "js/rgb-models/RgbScreenForm.js"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/bundle.js",
-    "inputFiles": [
-      "js/loadingIndicator.min.js",
-      "js/preloader.js",
-      "js/site.min.js",
-      "js/solonggaybowser.min.js",
-      "js/touchscreenDetector.min.js"
+      "wwwroot/css/site.css"
     ]
   }
 ]

@@ -23,6 +23,7 @@
     }
 }
 
-var screenElem: HTMLElement = document.createElement("<div id='the-screen'></div>");
+const screenElem: HTMLElement = document.createElement("div");
+screenElem.setAttribute('id', "the-screen");
 document.body.appendChild(screenElem);
-var theForm = new RgbScreenForm(screenElem);
+new RgbScreenForm(screenElem);

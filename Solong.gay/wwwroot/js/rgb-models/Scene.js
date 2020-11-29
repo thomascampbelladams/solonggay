@@ -14,38 +14,36 @@ var Scene = /** @class */ (function () {
             }
         }
         this.TypeField = document.createElement("select");
-        this.TypeLabel = document.createElement("<label>Scene Type</label>");
-        this.screen = screen;
+        this.TypeLabel = ElementHelper.CreateLabel('Scene Type');
+        this.screen = document.createElement("div");
+        screen.appendChild(this.screen);
+        this.screen.setAttribute('class', 'scene-group');
     }
     Scene.prototype.CreateTypeDropDownOptions = function (dropdown) {
         for (var i = 0, len = this.Types.length; i < len; i++) {
-            dropdown.appendChild(document.createElement("<option value=\"" + this.Types[i] + "\">" + this.Types[i] + "</option>"));
+            dropdown.appendChild(ElementHelper.CreateOption(this.Types[i], this.Types[i]));
         }
     };
-    Scene.prototype.CreateNewScene = function (sceneName) {
-        switch (sceneName) {
-            case "horizontal marquee":
-            case "vertical marquee":
-                return new MarqueeScene(this.screen);
-            case "animation":
-                return new AnimationScene(this.screen);
-            case "rainbow transition":
-                break;
-            case "text":
-                return new TextScene(this.screen);
-        }
+    Scene.prototype.BindToOnDropDownChange = function (event) {
+        this.OnDropDownChange = event;
     };
     /**
      * Render
      */
-    Scene.prototype.Render = function (screen) {
+    Scene.prototype.Render = function () {
         var _this = this;
         this.CreateTypeDropDownOptions(this.TypeField);
         this.TypeField.addEventListener("change", function (e) {
             _this.Type = _this.TypeField.value;
+            _this.OnDropDownChange(_this);
         });
-        screen.appendChild(this.TypeLabel);
-        screen.appendChild(this.TypeField);
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.TypeLabel, this.TypeField));
+        if (this.Type) {
+            this.TypeField.value = this.Type;
+        }
+    };
+    Scene.prototype.Dispose = function () {
+        this.screen.parentElement.removeChild(this.screen);
     };
     Scene.prototype.ToJson = function () {
         return {
@@ -54,4 +52,3 @@ var Scene = /** @class */ (function () {
     };
     return Scene;
 }());
-//# sourceMappingURL=Scene.js.map

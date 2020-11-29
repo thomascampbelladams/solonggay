@@ -1,36 +1,35 @@
 ﻿class MarqueeScene extends TextScene {
     public AnimationDelay: number;
-    private AnimationDelayRangeElement: HTMLInputElement;
-    private AnimationDelayLabel: HTMLElement;
-    private MaxDelay: number = 100;
-    private MinDelay: number = 0;
+    private AnimationDelayRangeElement: HTMLElement;
+    private AnimationDelayLabel: HTMLLabelElement;
+    private MaxDelay = 100;
+    private MinDelay = 0;
 
-    constructor(screen: HTMLElement) {
+    constructor(screen: HTMLElement, isHorizontal: boolean) {
         super(screen);
 
-        this.AnimationDelayRangeElement = document.createElement("input");
-        this.AnimationDelayRangeElement.setAttribute("type", "range");
-        this.AnimationDelayRangeElement.setAttribute("min", `${this.MinDelay}`);
-        this.AnimationDelayRangeElement.setAttribute("max", `${this.MaxDelay}`);
-        this.AnimationDelayRangeElement.addEventListener("change", (e) => {
-            this.AnimationDelay = parseInt(this.AnimationDelayRangeElement.value);
+        this.Type = (isHorizontal) ? "horizontal marquee" : "vertical marquee";
+
+        this.AnimationDelayRangeElement = ElementHelper.CreateRangeElement(this.MinDelay, this.MaxDelay, (e) => {
+            this.AnimationDelay = parseInt(this.AnimationDelayRangeElement.querySelector('input').value);
         });
-        this.AnimationDelayLabel = document.createElement("<label>Animation Delay</label>");
+        this.AnimationDelayLabel = ElementHelper.CreateLabel("Animation Delay");
     }
 
     /**
      * async Render
      */
-    public Render(screen: HTMLElement) {
-        super.Render(screen);
+    public Render() {
+        super.Render();
 
-        screen.appendChild(this.AnimationDelayLabel);
-        screen.appendChild(this.AnimationDelayRangeElement);
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.AnimationDelayLabel, this.AnimationDelayRangeElement));
     }
 
     public ToJson() {
-        var ret: any = super.ToJson();
+        const ret = super.ToJson();
 
-        ret["AnimationDelay"] = this.AnimationDelay;
+        ret["AnimationDelay"] = parseInt(this.AnimationDelayRangeElement.querySelector('input').value);
+
+        return ret;
     }
 }

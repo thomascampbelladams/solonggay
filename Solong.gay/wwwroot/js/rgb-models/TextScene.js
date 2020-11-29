@@ -62,67 +62,62 @@ var TextScene = /** @class */ (function (_super) {
             "spleen-8x16",
             "tom-thumb"
         ];
+        _this.Type = "text";
         _this.ContentInput = document.createElement("input");
         _this.ContentInput.setAttribute("type", "text");
         _this.ContentInput.addEventListener("change", function (e) {
             _this.Content = _this.ContentInput.value;
         });
-        _this.ContentLabel = document.createElement("<label>Content</label>");
+        _this.ContentLabel = ElementHelper.CreateLabel("Content");
         _this.ColorInput = document.createElement("input");
         _this.ColorInput.setAttribute("type", "color");
         _this.ColorInput.addEventListener("change", function (e) {
             _this.Color = parseInt(_this.ColorInput.value);
         });
-        _this.ColorLabel = document.createElement("<label>Color of text</label>");
+        _this.ColorLabel = ElementHelper.CreateLabel("Color of text");
         _this.FontDropDown = document.createElement("select");
         _this.CreateFontDropDown(_this.FontDropDown);
         _this.FontDropDown.addEventListener("change", function (e) {
             _this.Font = _this.FontDropDown.value;
         });
-        _this.FontLabel = document.createElement("<label>Font</label>");
+        _this.FontLabel = ElementHelper.CreateLabel("Font");
         _this.CenteredVerticallyCheckbox = document.createElement("input");
         _this.CenteredVerticallyCheckbox.setAttribute("type", "checkbox");
         _this.CenteredVerticallyCheckbox.addEventListener("change", function (e) {
             _this.CenteredVertically = _this.CenteredVerticallyCheckbox.checked;
         });
-        _this.CenteredVerticallyLabel = document.createElement("Centered Vertically?");
+        _this.CenteredVerticallyLabel = ElementHelper.CreateLabel("Centered Vertically?");
         _this.CenteredHorizontallyCheckbox = document.createElement("input");
         _this.CenteredHorizontallyCheckbox.setAttribute("type", "checkbox");
         _this.CenteredHorizontallyCheckbox.addEventListener("change", function (e) {
             _this.CenteredHorizontally = _this.CenteredHorizontallyCheckbox.checked;
         });
-        _this.CenteredHorizontallyLabel = document.createElement("Centered Horizontally?");
+        _this.CenteredHorizontallyLabel = ElementHelper.CreateLabel("Centered Horizontally?");
         return _this;
     }
     TextScene.prototype.CreateFontDropDown = function (dropdown) {
         for (var i = 0, len = this.availableFonts.length; i < len; i++) {
-            dropdown.appendChild(document.createElement("<option value=\"" + this.availableFonts[i] + "\">" + this.availableFonts + "</option>"));
+            dropdown.appendChild(ElementHelper.CreateOption(this.availableFonts[i], this.availableFonts[i]));
         }
     };
     /**
      * Render
      */
-    TextScene.prototype.Render = function (screen) {
-        _super.prototype.Render.call(this, screen);
-        screen.appendChild(this.ContentLabel);
-        screen.appendChild(this.ContentInput);
-        screen.appendChild(this.ColorLabel);
-        screen.appendChild(this.ColorInput);
-        screen.appendChild(this.FontLabel);
-        screen.appendChild(this.FontDropDown);
-        screen.appendChild(this.CenteredHorizontallyLabel);
-        screen.appendChild(this.CenteredHorizontallyCheckbox);
-        screen.appendChild(this.CenteredVerticallyLabel);
-        screen.appendChild(this.CenteredVerticallyCheckbox);
+    TextScene.prototype.Render = function () {
+        _super.prototype.Render.call(this);
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.ContentLabel, this.ContentInput));
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.ColorLabel, this.ColorInput));
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.FontLabel, this.FontDropDown));
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.CenteredHorizontallyLabel, this.CenteredHorizontallyCheckbox));
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.CenteredVerticallyLabel, this.CenteredVerticallyCheckbox));
     };
     TextScene.prototype.ToJson = function () {
         var ret = _super.prototype.ToJson.call(this);
-        ret["Content"] = this.Content;
-        ret["Color"] = this.Color;
-        ret["CenteredVertically"] = this.CenteredVertically;
-        ret["CenteredHorizontally"] = this.CenteredHorizontally;
+        ret["Content"] = this.ContentInput.value;
+        ret["Color"] = parseInt(this.ColorInput.value.split("#")[1], 16);
+        ret["CenteredVertically"] = this.CenteredVerticallyCheckbox.checked;
+        ret["CenteredHorizontally"] = this.CenteredHorizontallyCheckbox.checked;
         return ret;
     };
     return TextScene;
 }(Scene));
-//# sourceMappingURL=TextScene.js.map

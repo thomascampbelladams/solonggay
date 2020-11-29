@@ -12,6 +12,7 @@ namespace Solong.gay.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+
         }
 
         public IActionResult Index()
@@ -26,6 +27,9 @@ namespace Solong.gay.Controllers
 
         public IActionResult RGBScreen()
         {
+#if DEBUG
+            ViewBag.IsDebug = true;
+#endif
             return View("RgbScreen");
         }
 

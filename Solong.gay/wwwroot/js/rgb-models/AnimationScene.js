@@ -19,74 +19,61 @@ var AnimationScene = /** @class */ (function (_super) {
         _this.MinAnimationDelay = 0;
         _this.MaxNumberOfTimesToRepeat = 3;
         _this.MinNumberOfTimesToRepeat = 1;
+        _this.Type = "animation";
         _this.ContentTextBox = document.createElement("textarea");
         _this.ContentTextBox.addEventListener("change", function (e) {
             _this.Content = _this.ContentTextBox.value;
         });
-        _this.ContentLabel = document.createElement("<label>Content</label>");
-        _this.AnimationDelayTextBox = document.createElement("input");
-        _this.AnimationDelayTextBox.setAttribute("type", "range");
-        _this.AnimationDelayTextBox.setAttribute("min", "" + _this.MinAnimationDelay);
-        _this.AnimationDelayTextBox.setAttribute("max", "" + _this.MaxAnimationDelay);
-        _this.AnimationDelayTextBox.addEventListener("change", function (e) {
-            _this.AnimationDelay = parseInt(_this.AnimationDelayTextBox.value);
+        _this.ContentLabel = ElementHelper.CreateLabel("Content");
+        _this.AnimationDelayTextBox = ElementHelper.CreateRangeElement(_this.MinAnimationDelay, _this.MaxAnimationDelay, function (e) {
+            _this.AnimationDelay = parseInt(_this.NumberOfTimesToRepeatTextBox.querySelector('input').value);
         });
-        _this.AnimationDelayLabel = document.createElement("<label>Animation Delay</label>");
-        _this.NumberOfTimesToRepeatTextBox = document.createElement("input");
-        _this.NumberOfTimesToRepeatTextBox.setAttribute("type", "range");
-        _this.NumberOfTimesToRepeatTextBox.setAttribute("min", "" + _this.MinNumberOfTimesToRepeat);
-        _this.NumberOfTimesToRepeatTextBox.setAttribute("max", "" + _this.MaxNumberOfTimesToRepeat);
-        _this.NumberOfTimesToRepeatTextBox.addEventListener("change", function (e) {
-            _this.NumberOfTimesToRepeat = parseInt(_this.NumberOfTimesToRepeatTextBox.value);
+        _this.AnimationDelayLabel = ElementHelper.CreateLabel("Animation Delay");
+        _this.NumberOfTimesToRepeatTextBox = ElementHelper.CreateRangeElement(_this.MinNumberOfTimesToRepeat, _this.MaxNumberOfTimesToRepeat, function (e) {
+            _this.NumberOfTimesToRepeat = parseInt(_this.NumberOfTimesToRepeatTextBox.querySelector('input').value);
         });
-        _this.NumberOfTimesToRepeatLabel = document.createElement("<label>Number of times to repeat</label>");
+        _this.NumberOfTimesToRepeatLabel = ElementHelper.CreateLabel("Number of times to repeat");
         _this.SceneToShowInBackgroundDropDown = document.createElement("select");
         _this.SceneToShowInBackgroundForm = document.createElement("div");
         _this.CreateTypeDropDownOptions(_this.SceneToShowInBackgroundDropDown);
         _this.SceneToShowInBackgroundDropDown.addEventListener("change", function (e) {
-            if (_this.SceneToShowInBackgroundDropDown.value == "none") {
+            if (_this.SceneToShowInBackgroundDropDown.value === "none") {
                 _this.SceneToShowInBackgroundForm.innerHTML = "";
             }
             else {
-                _this.SceneToShowInBackground = _this.CreateNewScene(_this.SceneToShowInBackgroundDropDown.value);
-                _this.SceneToShowInBackground.Render(_this.SceneToShowInBackgroundForm);
+                _this.SceneToShowInBackground = ElementHelper.CreateNewScene(_this.SceneToShowInBackgroundDropDown.value, _this.screen);
+                _this.SceneToShowInBackground.Render();
             }
         });
-        _this.SceneToShowInBackgroundLabel = document.createElement("<label>Scene to show in Background</label>");
+        _this.SceneToShowInBackgroundLabel = ElementHelper.CreateLabel("Scene to show in Background");
         _this.isTwoBitAnimationCheckBox = document.createElement("input");
         _this.isTwoBitAnimationCheckBox.setAttribute("type", "checkbox");
         _this.isTwoBitAnimationCheckBox.addEventListener("change", function (e) {
             _this.isTwoBitAnimation = _this.isTwoBitAnimationCheckBox.checked;
         });
-        _this.isTwoBitAnimationLabel = document.createElement("<label>Is two bit animation?</label>");
+        _this.isTwoBitAnimationLabel = ElementHelper.CreateLabel("Is two bit animation?");
         return _this;
     }
     /**
      * Render
      */
-    AnimationScene.prototype.Render = function (screen) {
-        _super.prototype.Render.call(this, screen);
-        screen.appendChild(this.ContentLabel);
-        screen.appendChild(this.ContentTextBox);
-        screen.appendChild(this.AnimationDelayLabel);
-        screen.appendChild(this.AnimationDelayTextBox);
-        screen.appendChild(this.NumberOfTimesToRepeatLabel);
-        screen.appendChild(this.NumberOfTimesToRepeatTextBox);
-        screen.appendChild(this.SceneToShowInBackgroundLabel);
-        screen.appendChild(this.SceneToShowInBackgroundDropDown);
-        screen.appendChild(this.SceneToShowInBackgroundForm);
-        screen.appendChild(this.isTwoBitAnimationLabel);
-        screen.appendChild(this.isTwoBitAnimationCheckBox);
+    AnimationScene.prototype.Render = function () {
+        _super.prototype.Render.call(this);
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.ContentLabel, this.ContentTextBox));
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.AnimationDelayLabel, this.AnimationDelayTextBox));
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.NumberOfTimesToRepeatLabel, this.NumberOfTimesToRepeatTextBox));
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.SceneToShowInBackgroundLabel, this.SceneToShowInBackgroundDropDown));
+        this.screen.appendChild(this.SceneToShowInBackgroundForm);
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.isTwoBitAnimationLabel, this.isTwoBitAnimationCheckBox));
     };
     AnimationScene.prototype.ToJson = function () {
         var ret = _super.prototype.ToJson.call(this);
-        ret["Content"] = this.Content;
-        ret["AnimationDelay"] = this.AnimationDelay;
-        ret["NumberOfTimesToRepeat"] = this.NumberOfTimesToRepeat;
+        ret["Content"] = this.ContentTextBox.value;
+        ret["AnimationDelay"] = parseInt(this.AnimationDelayTextBox.querySelector("input").value);
+        ret["NumberOfTimesToRepeat"] = this.NumberOfTimesToRepeatTextBox.querySelector("input").value;
         ret["SceneToShowInBackground"] = this.SceneToShowInBackground.ToJson();
-        ret["isTwoBitAnimation"] = this.isTwoBitAnimation;
+        ret["isTwoBitAnimation"] = this.isTwoBitAnimationCheckBox.checked;
         return ret;
     };
     return AnimationScene;
 }(Scene));
-//# sourceMappingURL=AnimationScene.js.map

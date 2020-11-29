@@ -1,7 +1,13 @@
-﻿class Scene {
+﻿interface ISceneEventCallback {
+    (scene: Scene): void;
+}
+
+class Scene {
     public Type: string;
+    public IndexValue: number;
+    private OnDropDownChange: ISceneEventCallback;
     private TypeField: HTMLSelectElement;
-    private TypeLabel: HTMLElement;
+    private TypeLabel: HTMLLabelElement;
     private Types = [
         "none",
         "horizontal marquee",
@@ -10,55 +16,54 @@
         "rainbow transition",
         "text"
     ];
-    private screen: HTMLElement;
+    public screen: HTMLElement;
 
-    constructor(jsonObj: any, screen: HTMLElement) {
+    constructor(jsonObj, screen: HTMLElement) {
         if (jsonObj) {
-            for (let prop in jsonObj) {
+            for (const prop in jsonObj) {
                 this[prop] = jsonObj[prop];
             }
         }
 
         this.TypeField = document.createElement("select");
-        this.TypeLabel = document.createElement(`<label>Scene Type</label>`);
-        this.screen = screen;
+        this.TypeLabel = ElementHelper.CreateLabel('Scene Type');
+        this.screen = document.createElement("div");
+        screen.appendChild(this.screen);
+
+        this.screen.setAttribute('class', 'scene-group');
     }
 
-    public CreateTypeDropDownOptions(dropdown: HTMLElement) {
+    public CreateTypeDropDownOptions(dropdown: HTMLSelectElement) {
         for (let i = 0, len = this.Types.length; i < len; i++) {
-            dropdown.appendChild(document.createElement(`<option value="${this.Types[i]}">${this.Types[i]}</option>`));
+            dropdown.appendChild(ElementHelper.CreateOption(this.Types[i], this.Types[i]));
         }
     }
 
-    public CreateNewScene(sceneName: string) {
-        switch (sceneName) {
-            case "horizontal marquee":
-            case "vertical marquee":
-                return new MarqueeScene(this.screen);
-
-            case "animation":
-                return new AnimationScene(this.screen);
-
-            case "rainbow transition":
-                break;
-
-            case "text":
-                return new TextScene(this.screen);
-        }
+    public BindToOnDropDownChange(event: ISceneEventCallback) {
+        this.OnDropDownChange = event;
     }
 
     /**
      * Render
      */
-    public Render(screen: HTMLElement) {
+    public Render() {
         this.CreateTypeDropDownOptions(this.TypeField);
 
         this.TypeField.addEventListener("change", (e) => {
             this.Type = this.TypeField.value;
+
+            this.OnDropDownChange(this);
         });
 
-        screen.appendChild(this.TypeLabel);
-        screen.appendChild(this.TypeField);
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.TypeLabel, this.TypeField));
+
+        if (this.Type) {
+            this.TypeField.value = this.Type;
+        }
+    }
+
+    public Dispose() {
+        this.screen.parentElement.removeChild(this.screen);
     }
 
     public ToJson() {

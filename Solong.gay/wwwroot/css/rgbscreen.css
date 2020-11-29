@@ -1,0 +1,9 @@
+﻿.form-group, .form-group label, .form-group input {
+    margin: 10px;
+}
+
+.scene-group {
+    margin-bottom: 10px;
+    border: 1px black solid;
+    padding: 10px;
+}
