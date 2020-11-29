@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using Azure.Storage.Queues;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Solong.gay.Models;
@@ -33,6 +35,29 @@ namespace Solong.gay.Controllers
             ViewBag.IsDebug = false;
 #endif
             return View("RgbScreen");
+        }
+
+        [HttpPost]
+        public IActionResult RgbScreenPost(string jsonString)
+        {
+            // Get the connection string from app settings
+            string connectionString = Environment.GetEnvironmentVariable("AZURE_QUEUE_CONNECTION_STRING");
+
+            // Instantiate a QueueClient which will be used to create and manipulate the queue
+            QueueClient queueClient = new QueueClient(connectionString, "rgbscreenqueue");
+
+            // Create the queue if it doesn't already exist
+            queueClient.CreateIfNotExists();
+
+            if (queueClient.Exists())
+            {
+                // Send a message to the queue
+                queueClient.SendMessage(jsonString);
+            }
+
+            Console.WriteLine($"Inserted: {jsonString}");
+
+            return new OkResult();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
