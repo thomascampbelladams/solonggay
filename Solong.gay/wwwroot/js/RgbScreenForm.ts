@@ -17,6 +17,21 @@
         this.SubmitButton = document.createElement("button");
         this.SubmitButton.innerText = "Submit";
         this.SubmitButton.addEventListener("click", (e) => {
+            const jsonStr = JSON.stringify(this.SceneList.ToJson());
+            const req = new XMLHttpRequest();
+
+            req.open('POST', '/Home/RgbScreenPost');
+            req.onreadystatechange = function () {
+                if (req.readyState === 4) {
+                    if (req.status === 200) {
+                        console.log("SUCCESS");
+                    } else {
+                        console.log("FAILURE");
+                    }
+                }
+            };
+            req.send(jsonStr);
+
             console.log(this.SceneList.ToJson());
         });
         screen.appendChild(this.SubmitButton);

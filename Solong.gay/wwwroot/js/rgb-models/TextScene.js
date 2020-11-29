@@ -117,6 +117,7 @@ var TextScene = /** @class */ (function (_super) {
         ret["Color"] = parseInt(this.ColorInput.value.split("#")[1], 16);
         ret["CenteredVertically"] = this.CenteredVerticallyCheckbox.checked;
         ret["CenteredHorizontally"] = this.CenteredHorizontallyCheckbox.checked;
+        ret["Font"] = this.FontDropDown.value + ".bdf";
         return ret;
     };
     return TextScene;

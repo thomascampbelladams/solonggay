@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 using Azure.Storage.Queues;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -38,8 +40,15 @@ namespace Solong.gay.Controllers
         }
 
         [HttpPost]
-        public IActionResult RgbScreenPost(string jsonString)
+        public IActionResult RgbScreenPost()
         {
+            string jsonString = string.Empty;
+
+            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+            {
+                jsonString = reader.ReadToEndAsync().Result;
+            }
+
             // Get the connection string from app settings
             string connectionString = Environment.GetEnvironmentVariable("AZURE_QUEUE_CONNECTION_STRING");
 

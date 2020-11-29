@@ -12,6 +12,20 @@ var RgbScreenForm = /** @class */ (function () {
         this.SubmitButton = document.createElement("button");
         this.SubmitButton.innerText = "Submit";
         this.SubmitButton.addEventListener("click", function (e) {
+            var jsonStr = JSON.stringify(_this.SceneList.ToJson());
+            var req = new XMLHttpRequest();
+            req.open('POST', '/Home/RgbScreenPost');
+            req.onreadystatechange = function () {
+                if (req.readyState === 4) {
+                    if (req.status === 200) {
+                        console.log("SUCCESS");
+                    }
+                    else {
+                        console.log("FAILURE");
+                    }
+                }
+            };
+            req.send(jsonStr);
             console.log(_this.SceneList.ToJson());
         });
         screen.appendChild(this.SubmitButton);
