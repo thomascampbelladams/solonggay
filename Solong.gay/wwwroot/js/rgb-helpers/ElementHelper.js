@@ -49,5 +49,50 @@ var ElementHelper = /** @class */ (function () {
         ret.appendChild(numberShower);
         return ret;
     };
+    ElementHelper.CreateFontChooser = function (fonts, onChange) {
+        var _this = this;
+        var ret = document.createElement('div');
+        var dropDown = document.createElement('select');
+        var fontPreview = document.createElement('img');
+        var imageDir = "/assets/rgb-screen-font-examples";
+        var dropDownandPreviewCont = document.createElement('div');
+        dropDownandPreviewCont.appendChild(dropDown);
+        dropDownandPreviewCont.appendChild(fontPreview);
+        dropDown.addEventListener("change", onChange);
+        dropDown.addEventListener("change", function (e) {
+            var fontFileName = dropDown.value + ".jpg";
+            var animatedFontFileName = dropDown.value + ".gif";
+            _this.CheckToSeeIfUrlResolves(imageDir + "/" + fontFileName).then(function () {
+                fontPreview.setAttribute('src', location.protocol + "//" + location.host + imageDir + "/" + fontFileName);
+            })["catch"](function () {
+                fontPreview.setAttribute('src', location.protocol + "//" + location.host + imageDir + "/" + animatedFontFileName);
+            });
+        });
+        this.CreateFontDropDown(fonts, dropDown);
+        ret.appendChild(dropDownandPreviewCont);
+        this.CheckToSeeIfUrlResolves(imageDir + "/" + fonts[0] + ".jpg").then(function () {
+            fontPreview.setAttribute('src', location.protocol + "//" + location.host + imageDir + "/" + fonts[0] + ".jpg");
+        })["catch"](function () {
+            fontPreview.setAttribute('src', location.protocol + "//" + location.host + imageDir + "/" + fonts[0] + ".gif");
+        });
+        return ret;
+    };
+    ElementHelper.CheckToSeeIfUrlResolves = function (url) {
+        return new Promise(function (resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState === this.DONE) {
+                    this.status === 200 ? resolve() : reject();
+                }
+            };
+            xhr.open('GET', url);
+            xhr.send();
+        });
+    };
+    ElementHelper.CreateFontDropDown = function (fonts, dropdown) {
+        for (var i = 0, len = fonts.length; i < len; i++) {
+            dropdown.appendChild(ElementHelper.CreateOption(fonts[i], fonts[i]));
+        }
+    };
     return ElementHelper;
 }());

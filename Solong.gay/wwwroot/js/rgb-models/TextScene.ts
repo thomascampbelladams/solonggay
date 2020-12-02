@@ -6,7 +6,7 @@
     private ColorInput: HTMLInputElement;
     private ColorLabel: HTMLLabelElement;
     public Font: string;
-    private FontDropDown: HTMLSelectElement;
+    private FontDropDown: HTMLElement;
     private FontLabel: HTMLLabelElement;
     public CenteredVertically: boolean;
     private CenteredVerticallyCheckbox: HTMLInputElement;
@@ -14,6 +14,11 @@
     public CenteredHorizontally: boolean;
     private CenteredHorizontallyCheckbox: HTMLInputElement;
     private CenteredHorizontallyLabel: HTMLLabelElement;
+    private NumberOfSecondsToShow: number;
+    private NumberOfSecondsToShowElement: HTMLElement;
+    private NumberOfSecondsToShowLabel: HTMLLabelElement;
+    private NumberOfSecondsToShowMin = 2;
+    private NumberOfSecondsToShowMax = 15;
     private availableFonts = [
         "10x20",
         "4x6",
@@ -81,10 +86,8 @@
         });
         this.ColorLabel = ElementHelper.CreateLabel("Color of text");
 
-        this.FontDropDown = document.createElement("select");
-        this.CreateFontDropDown(this.FontDropDown);
-        this.FontDropDown.addEventListener("change", (e) => {
-            this.Font = this.FontDropDown.value;
+        this.FontDropDown = ElementHelper.CreateFontChooser(this.availableFonts, (e) => {
+            this.Font = this.FontDropDown.querySelector('select').value;
         });
         this.FontLabel = ElementHelper.CreateLabel("Font");
 
@@ -101,12 +104,12 @@
             this.CenteredHorizontally = this.CenteredHorizontallyCheckbox.checked;
         });
         this.CenteredHorizontallyLabel = ElementHelper.CreateLabel("Centered Horizontally?");
-    }
 
-    public CreateFontDropDown(dropdown: HTMLElement) {
-        for (let i = 0, len = this.availableFonts.length; i < len; i++) {
-            dropdown.appendChild(ElementHelper.CreateOption(this.availableFonts[i], this.availableFonts[i]));
-        }
+        this.NumberOfSecondsToShowElement = ElementHelper.CreateRangeElement(this.NumberOfSecondsToShowMin, this.NumberOfSecondsToShowMax, (e) => {
+            this.NumberOfSecondsToShow = parseInt(this.NumberOfSecondsToShowElement.querySelector('input').value);
+        });
+        this.NumberOfSecondsToShowLabel = ElementHelper.CreateLabel("Number of Seconds To Show");
+
     }
 
     /**
@@ -120,6 +123,7 @@
         this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.FontLabel, this.FontDropDown));
         this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.CenteredHorizontallyLabel, this.CenteredHorizontallyCheckbox));
         this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.CenteredVerticallyLabel, this.CenteredVerticallyCheckbox));
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.NumberOfSecondsToShowLabel, this.NumberOfSecondsToShowElement));
     }
 
     public ToJson() {
@@ -129,7 +133,8 @@
         ret["Color"] = parseInt(this.ColorInput.value.split("#")[1], 16);
         ret["CenteredVertically"] = this.CenteredVerticallyCheckbox.checked;
         ret["CenteredHorizontally"] = this.CenteredHorizontallyCheckbox.checked;
-        ret["Font"] = `${this.FontDropDown.value}.bdf`;
+        ret["Font"] = `${this.FontDropDown.querySelector('select').value}.bdf`;
+        ret["NumberOfSecondsToShow"] = parseInt(this.NumberOfSecondsToShowElement.querySelector('input').value);
 
         return ret;
     }

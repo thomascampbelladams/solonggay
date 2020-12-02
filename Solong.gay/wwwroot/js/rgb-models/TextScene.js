@@ -15,6 +15,8 @@ var TextScene = /** @class */ (function (_super) {
     __extends(TextScene, _super);
     function TextScene(screen) {
         var _this = _super.call(this, "", screen) || this;
+        _this.NumberOfSecondsToShowMin = 2;
+        _this.NumberOfSecondsToShowMax = 15;
         _this.availableFonts = [
             "10x20",
             "4x6",
@@ -75,10 +77,8 @@ var TextScene = /** @class */ (function (_super) {
             _this.Color = parseInt(_this.ColorInput.value);
         });
         _this.ColorLabel = ElementHelper.CreateLabel("Color of text");
-        _this.FontDropDown = document.createElement("select");
-        _this.CreateFontDropDown(_this.FontDropDown);
-        _this.FontDropDown.addEventListener("change", function (e) {
-            _this.Font = _this.FontDropDown.value;
+        _this.FontDropDown = ElementHelper.CreateFontChooser(_this.availableFonts, function (e) {
+            _this.Font = _this.FontDropDown.querySelector('select').value;
         });
         _this.FontLabel = ElementHelper.CreateLabel("Font");
         _this.CenteredVerticallyCheckbox = document.createElement("input");
@@ -93,13 +93,12 @@ var TextScene = /** @class */ (function (_super) {
             _this.CenteredHorizontally = _this.CenteredHorizontallyCheckbox.checked;
         });
         _this.CenteredHorizontallyLabel = ElementHelper.CreateLabel("Centered Horizontally?");
+        _this.NumberOfSecondsToShowElement = ElementHelper.CreateRangeElement(_this.NumberOfSecondsToShowMin, _this.NumberOfSecondsToShowMax, function (e) {
+            _this.NumberOfSecondsToShow = parseInt(_this.NumberOfSecondsToShowElement.querySelector('input').value);
+        });
+        _this.NumberOfSecondsToShowLabel = ElementHelper.CreateLabel("Number of Seconds To Show");
         return _this;
     }
-    TextScene.prototype.CreateFontDropDown = function (dropdown) {
-        for (var i = 0, len = this.availableFonts.length; i < len; i++) {
-            dropdown.appendChild(ElementHelper.CreateOption(this.availableFonts[i], this.availableFonts[i]));
-        }
-    };
     /**
      * Render
      */
@@ -110,6 +109,7 @@ var TextScene = /** @class */ (function (_super) {
         this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.FontLabel, this.FontDropDown));
         this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.CenteredHorizontallyLabel, this.CenteredHorizontallyCheckbox));
         this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.CenteredVerticallyLabel, this.CenteredVerticallyCheckbox));
+        this.screen.appendChild(ElementHelper.CombineIntoFormGroup(this.NumberOfSecondsToShowLabel, this.NumberOfSecondsToShowElement));
     };
     TextScene.prototype.ToJson = function () {
         var ret = _super.prototype.ToJson.call(this);
@@ -117,7 +117,8 @@ var TextScene = /** @class */ (function (_super) {
         ret["Color"] = parseInt(this.ColorInput.value.split("#")[1], 16);
         ret["CenteredVertically"] = this.CenteredVerticallyCheckbox.checked;
         ret["CenteredHorizontally"] = this.CenteredHorizontallyCheckbox.checked;
-        ret["Font"] = this.FontDropDown.value + ".bdf";
+        ret["Font"] = this.FontDropDown.querySelector('select').value + ".bdf";
+        ret["NumberOfSecondsToShow"] = parseInt(this.NumberOfSecondsToShowElement.querySelector('input').value);
         return ret;
     };
     return TextScene;

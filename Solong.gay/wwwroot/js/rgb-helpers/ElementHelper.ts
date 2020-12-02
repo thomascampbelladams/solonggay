@@ -65,4 +65,58 @@
 
         return ret;
     }
+
+    public static CreateFontChooser(fonts: string[], onChange): HTMLElement {
+        const ret = document.createElement('div');
+        const dropDown: HTMLSelectElement = document.createElement('select');
+        const fontPreview: HTMLImageElement = document.createElement('img');
+        const imageDir = "/assets/rgb-screen-font-examples";
+        const dropDownandPreviewCont = document.createElement('div');
+
+        dropDownandPreviewCont.appendChild(dropDown);
+        dropDownandPreviewCont.appendChild(fontPreview);
+
+        dropDown.addEventListener("change", onChange);
+        dropDown.addEventListener("change", (e) => {
+            const fontFileName = `${dropDown.value}.jpg`;
+            const animatedFontFileName = `${dropDown.value}.gif`;
+
+            this.CheckToSeeIfUrlResolves(`${imageDir}/${fontFileName}`).then(() => {
+                fontPreview.setAttribute('src', `${location.protocol}//${location.host}${imageDir}/${fontFileName}`);
+            }).catch(() => {
+                fontPreview.setAttribute('src', `${location.protocol}//${location.host}${imageDir}/${animatedFontFileName}`);
+            });
+        });
+        this.CreateFontDropDown(fonts, dropDown);
+
+        ret.appendChild(dropDownandPreviewCont);
+
+        this.CheckToSeeIfUrlResolves(`${imageDir}/${fonts[0]}.jpg`).then(() => {
+            fontPreview.setAttribute('src', `${location.protocol}//${location.host}${imageDir}/${fonts[0]}.jpg`);
+        }).catch(() => {
+            fontPreview.setAttribute('src', `${location.protocol}//${location.host}${imageDir}/${fonts[0]}.gif`);
+        });
+
+        return ret;
+    }
+
+    public static CheckToSeeIfUrlResolves(url: string) {
+        return new Promise<void>((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                if (this.readyState === this.DONE) {
+                    this.status === 200 ? resolve() : reject();
+                }
+            };
+            xhr.open('GET', url);
+            xhr.send();
+        });
+    }
+
+    public static CreateFontDropDown(fonts: string[], dropdown: HTMLElement) {
+        for (let i = 0, len = fonts.length; i < len; i++) {
+            dropdown.appendChild(ElementHelper.CreateOption(fonts[i], fonts[i]));
+        }
+    }
 }
