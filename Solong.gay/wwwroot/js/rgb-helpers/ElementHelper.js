@@ -94,5 +94,52 @@ var ElementHelper = /** @class */ (function () {
             dropdown.appendChild(ElementHelper.CreateOption(fonts[i], fonts[i]));
         }
     };
+    ElementHelper.CreateAnimationInput = function (onChange) {
+        var animationInput = document.createElement("textarea");
+        var animationExampleCont = document.createElement('div');
+        var dancingSantaAnimation = document.createElement('a');
+        var fireworkAnimation = document.createElement('a');
+        var animationInputContainer = document.createElement('div');
+        var animationErrorSpan = document.createElement('span');
+        var validationErrorMessage = "Animation must be a 3D Array of color hex values: Each element of the array is a frame, where each frame is an array of pixel colors. Click the examples below to see an example input with image";
+        dancingSantaAnimation.innerText = "Insert Dancing Santa Animation";
+        dancingSantaAnimation.setAttribute("href", "#");
+        dancingSantaAnimation.addEventListener("click", function (e) {
+            var anim = Animations.DancingSantaAnimation();
+            animationInput.value = JSON.stringify(anim);
+            onChange(anim);
+        });
+        fireworkAnimation.innerText = "Insert Firework Animation";
+        fireworkAnimation.setAttribute("href", "#");
+        fireworkAnimation.addEventListener("click", function (e) {
+            var anim = Animations.FireWorkAnimation();
+            animationInput.value = JSON.stringify(anim);
+            onChange(anim);
+        });
+        animationInput.addEventListener("change", function (e) {
+            animationErrorSpan.innerText = "";
+            try {
+                var contentInput = JSON.parse(animationInput.value);
+                if (contentInput.length) {
+                    onChange(contentInput);
+                }
+                else {
+                    animationErrorSpan.innerText = validationErrorMessage;
+                }
+            }
+            catch (e) {
+                animationErrorSpan.innerText = validationErrorMessage;
+            }
+        });
+        animationErrorSpan.setAttribute('class', 'animation-validation');
+        animationExampleCont.setAttribute('class', 'animation-examples');
+        animationExampleCont.appendChild(dancingSantaAnimation);
+        animationExampleCont.appendChild(fireworkAnimation);
+        animationInputContainer.setAttribute('class', 'animation-input');
+        animationInputContainer.appendChild(animationInput);
+        animationInputContainer.appendChild(animationExampleCont);
+        animationInputContainer.appendChild(animationErrorSpan);
+        return animationInputContainer;
+    };
     return ElementHelper;
 }());

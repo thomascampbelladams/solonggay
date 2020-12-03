@@ -1,4 +1,4 @@
-﻿.form-group, .form-group label, .form-group input {
+﻿.form-group, .form-group label, .form-group input, select, img {
     margin: 10px;
 }
 
@@ -12,6 +12,18 @@
     display: none;
 }
 
+.animation-input {
+    display: grid;
+    grid-template-columns: 65% 35%;
+}
+
+.animation-examples a {
+    display: block;
+}
+
+select {
+    display: block;
+}
 /*
 The loaders use CSS custom properties (variables) to control the attributes of the loaders
 */

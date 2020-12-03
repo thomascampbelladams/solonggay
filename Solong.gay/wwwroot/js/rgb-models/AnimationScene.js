@@ -20,9 +20,8 @@ var AnimationScene = /** @class */ (function (_super) {
         _this.MaxNumberOfTimesToRepeat = 3;
         _this.MinNumberOfTimesToRepeat = 1;
         _this.Type = "animation";
-        _this.ContentTextBox = document.createElement("textarea");
-        _this.ContentTextBox.addEventListener("change", function (e) {
-            _this.Content = _this.ContentTextBox.value;
+        _this.ContentTextBox = ElementHelper.CreateAnimationInput(function (content) {
+            _this.Content = content;
         });
         _this.ContentLabel = ElementHelper.CreateLabel("Content");
         _this.AnimationDelayTextBox = ElementHelper.CreateRangeElement(_this.MinAnimationDelay, _this.MaxAnimationDelay, function (e) {
@@ -37,11 +36,9 @@ var AnimationScene = /** @class */ (function (_super) {
         _this.SceneToShowInBackgroundForm = document.createElement("div");
         _this.CreateTypeDropDownOptions(_this.SceneToShowInBackgroundDropDown);
         _this.SceneToShowInBackgroundDropDown.addEventListener("change", function (e) {
-            if (_this.SceneToShowInBackgroundDropDown.value === "none") {
-                _this.SceneToShowInBackgroundForm.innerHTML = "";
-            }
-            else {
-                _this.SceneToShowInBackground = ElementHelper.CreateNewScene(_this.SceneToShowInBackgroundDropDown.value, _this.screen);
+            _this.SceneToShowInBackgroundForm.innerHTML = "";
+            if (_this.SceneToShowInBackgroundDropDown.value !== "none") {
+                _this.SceneToShowInBackground = ElementHelper.CreateNewScene(_this.SceneToShowInBackgroundDropDown.value, _this.SceneToShowInBackgroundForm);
                 _this.SceneToShowInBackground.Render();
             }
         });
@@ -68,10 +65,10 @@ var AnimationScene = /** @class */ (function (_super) {
     };
     AnimationScene.prototype.ToJson = function () {
         var ret = _super.prototype.ToJson.call(this);
-        ret["Content"] = this.ContentTextBox.value;
+        ret["Content"] = this.Content;
         ret["AnimationDelay"] = parseInt(this.AnimationDelayTextBox.querySelector("input").value);
         ret["NumberOfTimesToRepeat"] = this.NumberOfTimesToRepeatTextBox.querySelector("input").value;
-        ret["SceneToShowInBackground"] = this.SceneToShowInBackground.ToJson();
+        ret["SceneToShowInBackground"] = this.SceneToShowInBackgroundDropDown.value !== "none" ? this.SceneToShowInBackground.ToJson() : {};
         ret["isTwoBitAnimation"] = this.isTwoBitAnimationCheckBox.checked;
         return ret;
     };

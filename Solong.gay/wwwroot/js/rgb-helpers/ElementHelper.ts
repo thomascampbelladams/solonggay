@@ -100,7 +100,7 @@
         return ret;
     }
 
-    public static CheckToSeeIfUrlResolves(url: string) {
+    public static CheckToSeeIfUrlResolves(url: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const xhr = new XMLHttpRequest();
 
@@ -118,5 +118,59 @@
         for (let i = 0, len = fonts.length; i < len; i++) {
             dropdown.appendChild(ElementHelper.CreateOption(fonts[i], fonts[i]));
         }
+    }
+
+    public static CreateAnimationInput(onChange): HTMLElement {
+        const animationInput: HTMLTextAreaElement = document.createElement("textarea");
+        const animationExampleCont: HTMLElement = document.createElement('div');
+        const dancingSantaAnimation: HTMLAnchorElement = document.createElement('a');
+        const fireworkAnimation: HTMLAnchorElement = document.createElement('a');
+        const animationInputContainer: HTMLElement = document.createElement('div');
+        const animationErrorSpan: HTMLSpanElement = document.createElement('span');
+        const validationErrorMessage = "Animation must be a 3D Array of color hex values: Each element of the array is a frame, where each frame is an array of pixel colors. Click the examples below to see an example input with image";
+
+        dancingSantaAnimation.innerText = "Insert Dancing Santa Animation";
+        dancingSantaAnimation.setAttribute("href", "#");
+        dancingSantaAnimation.addEventListener("click", (e) => {
+            const anim = Animations.DancingSantaAnimation();
+            animationInput.value = JSON.stringify(anim);
+            onChange(anim);
+        });
+
+        fireworkAnimation.innerText = "Insert Firework Animation";
+        fireworkAnimation.setAttribute("href", "#");
+        fireworkAnimation.addEventListener("click", (e) => {
+            const anim = Animations.FireWorkAnimation();
+            animationInput.value = JSON.stringify(anim);
+            onChange(anim);
+        });
+
+        animationInput.addEventListener("change", (e) => {
+            animationErrorSpan.innerText = "";
+
+            try {
+                const contentInput = JSON.parse(animationInput.value);
+
+                if ((contentInput as number[][][]).length) {
+                    onChange(contentInput);
+                } else {
+                    animationErrorSpan.innerText = validationErrorMessage;
+                }
+            } catch (e) {
+                animationErrorSpan.innerText = validationErrorMessage;
+            }
+        });
+        animationErrorSpan.setAttribute('class', 'animation-validation');
+
+        animationExampleCont.setAttribute('class', 'animation-examples');
+        animationExampleCont.appendChild(dancingSantaAnimation);
+        animationExampleCont.appendChild(fireworkAnimation);
+
+        animationInputContainer.setAttribute('class', 'animation-input');
+        animationInputContainer.appendChild(animationInput);
+        animationInputContainer.appendChild(animationExampleCont);
+        animationInputContainer.appendChild(animationErrorSpan);
+
+        return animationInputContainer;
     }
 }

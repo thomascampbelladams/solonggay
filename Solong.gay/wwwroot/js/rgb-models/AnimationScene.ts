@@ -1,6 +1,6 @@
 ﻿class AnimationScene extends Scene {
-    public Content: string;
-    private ContentTextBox: HTMLTextAreaElement;
+    public Content: number[][][];
+    private ContentTextBox: HTMLElement;
     private ContentLabel: HTMLLabelElement;
     public AnimationDelay: number;
     private AnimationDelayTextBox: HTMLElement;
@@ -25,9 +25,8 @@
 
         this.Type = "animation";
 
-        this.ContentTextBox = document.createElement("textarea");
-        this.ContentTextBox.addEventListener("change", (e) => {
-            this.Content = this.ContentTextBox.value;
+        this.ContentTextBox = ElementHelper.CreateAnimationInput((content: number[][][]) => {
+            this.Content = content;
         });
         this.ContentLabel = ElementHelper.CreateLabel(`Content`);
 
@@ -45,10 +44,10 @@
         this.SceneToShowInBackgroundForm = document.createElement("div");
         this.CreateTypeDropDownOptions(this.SceneToShowInBackgroundDropDown);
         this.SceneToShowInBackgroundDropDown.addEventListener("change", (e) => {
-            if (this.SceneToShowInBackgroundDropDown.value === "none") {
-                this.SceneToShowInBackgroundForm.innerHTML = "";
-            } else {
-                this.SceneToShowInBackground = ElementHelper.CreateNewScene(this.SceneToShowInBackgroundDropDown.value, this.screen);
+            this.SceneToShowInBackgroundForm.innerHTML = "";
+
+            if (this.SceneToShowInBackgroundDropDown.value !== "none") {
+                this.SceneToShowInBackground = ElementHelper.CreateNewScene(this.SceneToShowInBackgroundDropDown.value, this.SceneToShowInBackgroundForm);
                 this.SceneToShowInBackground.Render();
             }
         });
@@ -79,10 +78,10 @@
     public ToJson() {
         const ret = super.ToJson();
 
-        ret["Content"] = this.ContentTextBox.value;
+        ret["Content"] = this.Content;
         ret["AnimationDelay"] = parseInt(this.AnimationDelayTextBox.querySelector("input").value);
         ret["NumberOfTimesToRepeat"] = this.NumberOfTimesToRepeatTextBox.querySelector("input").value;
-        ret["SceneToShowInBackground"] = this.SceneToShowInBackground.ToJson();
+        ret["SceneToShowInBackground"] = this.SceneToShowInBackgroundDropDown.value !== "none" ? this.SceneToShowInBackground.ToJson() : {};
         ret["isTwoBitAnimation"] = this.isTwoBitAnimationCheckBox.checked;
 
         return ret;
