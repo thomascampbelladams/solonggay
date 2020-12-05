@@ -40,8 +40,8 @@
     public ToJson() {
         const ret = super.ToJson();
 
-        ret["BlockHeight"] = this.BlockHeightRangeElement.querySelector('input').value;
-        ret["BlockWidth"] = this.BlockWidthRangeElement.querySelector('input').value;
+        ret["BlockHeight"] = parseInt(this.BlockHeightRangeElement.querySelector('input').value);
+        ret["BlockWidth"] = parseInt(this.BlockWidthRangeElement.querySelector('input').value);
 
         return ret;
     }

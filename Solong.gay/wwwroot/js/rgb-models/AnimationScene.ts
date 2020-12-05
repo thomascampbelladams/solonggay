@@ -80,7 +80,7 @@
 
         ret["Content"] = this.Content;
         ret["AnimationDelay"] = parseInt(this.AnimationDelayTextBox.querySelector("input").value);
-        ret["NumberOfTimesToRepeat"] = this.NumberOfTimesToRepeatTextBox.querySelector("input").value;
+        ret["NumberOfTimesToRepeat"] = parseInt(this.NumberOfTimesToRepeatTextBox.querySelector("input").value);
         ret["SceneToShowInBackground"] = this.SceneToShowInBackgroundDropDown.value !== "none" ? this.SceneToShowInBackground.ToJson() : {};
         ret["isTwoBitAnimation"] = this.isTwoBitAnimationCheckBox.checked;
 

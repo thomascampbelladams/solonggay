@@ -40,8 +40,8 @@ var RainbowTransitionScene = /** @class */ (function (_super) {
     };
     RainbowTransitionScene.prototype.ToJson = function () {
         var ret = _super.prototype.ToJson.call(this);
-        ret["BlockHeight"] = this.BlockHeightRangeElement.querySelector('input').value;
-        ret["BlockWidth"] = this.BlockWidthRangeElement.querySelector('input').value;
+        ret["BlockHeight"] = parseInt(this.BlockHeightRangeElement.querySelector('input').value);
+        ret["BlockWidth"] = parseInt(this.BlockWidthRangeElement.querySelector('input').value);
         return ret;
     };
     return RainbowTransitionScene;
