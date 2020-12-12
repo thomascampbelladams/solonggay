@@ -2,9 +2,12 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Azure;
 using Azure.Storage.Queues;
+using Azure.Storage.Queues.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Solong.gay.Models;
 
 namespace Solong.gay.Controllers
@@ -67,6 +70,35 @@ namespace Solong.gay.Controllers
             Console.WriteLine($"Inserted: {jsonString}");
 
             return new OkResult();
+        }
+
+
+        public IActionResult DequeueMessage(string key)
+        {
+            string storedKey = Environment.GetEnvironmentVariable(Environment.GetEnvironmentVariable("STORED_KEY"));
+
+            if (key == storedKey)
+            {
+                // Get the connection string from app settings
+                string connectionString = Environment.GetEnvironmentVariable("AZURE_QUEUE_CONNECTION_STRING");
+
+                // Instantiate a QueueClient which will be used to create and manipulate the queue
+                QueueClient queueClient = new QueueClient(connectionString, "rgbscreenqueue");
+
+                // Create the queue if it doesn't already exist
+                queueClient.CreateIfNotExists();
+
+                if (queueClient.Exists())
+                {
+                    // Send a message to the queue
+                    Response<QueueMessage> response = queueClient.ReceiveMessage();
+
+
+                    return Json(JsonConvert.SerializeObject(response.GetRawResponse()));
+                }
+            }
+
+            return Json(new object());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
